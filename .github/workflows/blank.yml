@@ -15,9 +15,11 @@ jobs:
   # This workflow contains a single job called "build"
   build:
     container: debian
+    runs-on:  ubuntu-latest
     name: apt-get
     steps:
       - name: apt-get
         run: apt update ; apt install -y build-essential zlib1g-dev uuid-dev libdigest-sha-perl libelf-dev bc bzip2 bison flex git gnupg iasl m4 nasm patch python wget gnat cpio ccache pkg-config cmake libusb-1.0-0-dev autoconf texinfo ncurses-dev
       - name: make
         run:  make --load 2 V=1 BOARD=qemu-coreboot
+        
