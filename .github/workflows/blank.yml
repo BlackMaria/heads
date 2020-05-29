@@ -29,38 +29,12 @@ jobs:
       - name: apt-get
         run: apt update ; apt install -y build-essential zlib1g-dev uuid-dev libdigest-sha-perl libelf-dev bc bzip2 bison flex git gnupg iasl m4 nasm patch python wget gnat cpio ccache pkg-config cmake libusb-1.0-0-dev autoconf texinfo ncurses-dev
       - uses: actions/checkout@v2
-      - name: Restore cache
-        uses: ./
-        with:
-          key: cache-${{ runner.os }}-${{ github.run_id }}
-          path: |
-             packages
-             crossgcc
-             build
       - name: make qemu-coreboot
         run: |
           rm -rf build/make-4.2.1/ build/qemu-coreboot/* build/log/*    &&
           make --load 2 V=1 BOARD=qemu-coreboot                         &&
           cat build/qemu-coreboot/hashes.txt                            &&
           tar zcvf build/qemu-coreboot/logs.tar.gz build/log/*
-      - name: make x230-flash
-        run: |
-          rm -rf build/x230-flash/* build/log/*                         &&
-          make --load 2  V=1 BOARD=x230-flash                           &&
-          cat build/x230-flash/hashes.txt                               &&
-          tar zcvf build/x230-flash/logs.tar.gz build/log/*
-      - name: make qemu-x230
-        run: |
-          rm -rf build/x230/* build/log/*                               &&
-          make --load 2 V=1 BOARD=x230                                  &&
-          cat build/x230/hashes.txt                                     &&
-          tar zcvf build/x230/logs.tar.gz build/log/*
-      - name: make x230-hotp-verification
-        run: |
-          rm -rf build/x230-hotp-verification/* build/log/*             &&
-          make --load 2 V=1 BOARD=x230-hotp-verification                &&
-          cat build/x230-hotp-verification/hashes.txt                   &&
-          tar zcvf build/x230-hotp-verification/logs.tar.gz build/log/*
       - name: Save cache
         uses: ./
         with:
