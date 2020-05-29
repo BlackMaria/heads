@@ -19,6 +19,8 @@ on:
 jobs:
   # This workflow contains a single job called "build"
   build:
+    strategy:
+      fail-fast: false
     container: debian
     runs-on:  ubuntu-latest
     name: apt-get
